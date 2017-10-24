@@ -1,0 +1,8 @@
+# IntelliJ project files
+.idea
+*.iml
+
+# Eclipse project files
+**/.settings/
+**/.classpath
+**/.project
