@@ -23,6 +23,8 @@ Before building the project you must configure `local` profile, which is active 
   - `log.path`
   - `log.rolled.path`
 
+**In `.gitignore` there's an entry for the *local* filter file** you created (**`configuration/local.properties`**), so it cannot be committed to the repository. This way you safely modify it, putting in it local paths, passwords, etc. without worrying that sensitive data will be pushed to the repository.
+
 ## 2) Build application
 
 ### Default Build
@@ -33,13 +35,13 @@ Build command:
 mvn package
 ```
 
-As stated before the default active profile is `local`, so executing this build command will use properties from `configuration/local.properties`. The result of the build is a jar complete with its dependencies:
+As the default active profile is `local`, executing this build command will use properties from `configuration/local.properties`. The result of the build is a jar with its dependencies:
 
 `target/maven-flexiconf-jar-with-dependencies.jar`
 
 ### Production Build
 
-If you ant to run a production build you need to activate the `prod` profile.
+To run a production build you need to activate the `prod` profile.
 
 To simulate an actual production build you should provide informations (especially sensitive ones) on the command line, leaving `configuration/prod.properties` untouched.
 
@@ -55,26 +57,30 @@ mvn package -Pprod "-Djdbc.url=jdbc:mysql://prod.example.org:3306/maven-flexicon
 
 ## 3) Run application
 
-The
-
-Unix/Linux/Mac:
+On Unix/Linux/Mac:
 
 ```
 java -jar target/maven-flexiconf-jar-with-dependencies.jar
 ```
 
-Windows:
+On Windows:
 
 ```
 java -jar .\target\maven-flexiconf-jar-with-dependencies.jar
 ```
 
-After running the application you will find a `maven-flexiconf.log` log file in the directory you created in Step 1.
+After running the application you will find a `maven-flexiconf.log` log file in the directory you created in **Step 1**.
 
 ## 4) Experiment!
 
-Try this:
+### Run different build profiles
 
 - do a `local` build and run the application
 - run a `prod` build and run the application
-- check the difference in log files
+- check the difference in **log files**
+
+### Create new build profiles
+
+Try creating a new build profile, e.g. `qa` (Quality Assurance) or `integration`, overriding files in `src/main/resources-override` and putting properties in correct filter files.
+
+Remember: **security is a top priority**. Try to understand why preventing sensitive data to leak in Git repository is important and how to ensure it.
